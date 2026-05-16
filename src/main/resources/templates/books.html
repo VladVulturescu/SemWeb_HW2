@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Books</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <h1>Semantic Book Recommender</h1>
+    <nav>
+        <a th:href="@{/books}">Books</a>
+        <a th:href="@{/books/add}">Add Harry Potter</a>
+        <a th:href="@{/rdf/graph}">View RDF Graph</a>
+    </nav>
+</header>
+
+<main>
+    <section class="card">
+        <h2>Available books</h2>
+        <p>This list is read from <code>books.rdf</code> using Apache Jena.</p>
+
+        <div class="grid">
+            <article class="book-card" th:each="book : ${books}">
+                <h3 th:text="${book.title}">Book title</h3>
+                <p><strong>Author:</strong> <span th:text="${book.author}">Author</span></p>
+                <p><strong>Reading level:</strong> <span th:text="${book.readingLevel}">Level</span></p>
+                <p><strong>Themes:</strong> <span th:text="${#strings.listJoin(book.themes, ', ')}">Themes</span></p>
+                <a class="button" th:href="@{/books/{id}(id=${book.id})}">Open details</a>
+                <a class="button secondary" th:href="@{/books/{id}/edit(id=${book.id})}">Edit</a>
+            </article>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Upload RDF/XML and visualize graph</h2>
+        <form th:action="@{/rdf/upload}" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".rdf,.xml,.owl" required>
+            <button type="submit">Upload and visualize</button>
+        </form>
+    </section>
+</main>
+</body>
+</html>

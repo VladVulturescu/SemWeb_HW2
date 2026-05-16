@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${mode == 'add' ? 'Add book' : 'Edit book'}">Book form</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <h1 th:text="${mode == 'add' ? 'Add book' : 'Edit book'}">Book form</h1>
+    <nav>
+        <a th:href="@{/books}">Books</a>
+        <a th:href="@{/rdf/graph}">View RDF Graph</a>
+    </nav>
+</header>
+
+<main>
+    <section class="card">
+        <form method="post" th:object="${bookForm}"
+              th:action="${mode == 'add' ? '/books/add' : '/books/' + bookForm.id + '/edit'}">
+            <input type="hidden" th:field="*{id}">
+
+            <label>Title</label>
+            <input type="text" th:field="*{title}" required>
+
+            <label>Author</label>
+            <input type="text" th:field="*{author}" required>
+
+            <label>Themes, separated by commas</label>
+            <input type="text" th:field="*{themes}" placeholder="Science Fiction, Fantasy" required>
+
+            <label>Reading level</label>
+            <select th:field="*{readingLevel}" required>
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Advanced">Advanced</option>
+            </select>
+
+            <label>Description</label>
+            <textarea th:field="*{description}" rows="4"></textarea>
+
+            <button type="submit">Save</button>
+        </form>
+    </section>
+</main>
+</body>
+</html>

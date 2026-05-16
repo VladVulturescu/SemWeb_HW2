@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">RDF Graph</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <h1 th:text="${title}">RDF Graph</h1>
+    <nav>
+        <a th:href="@{/books}">Books</a>
+        <a th:href="@{/books/add}">Add Harry Potter</a>
+        <a th:href="@{/rdf/graph}">Current RDF Graph</a>
+    </nav>
+</header>
+
+<main>
+    <section class="card">
+        <h2>RDF graph visualization</h2>
+        <p>Each arrow represents one RDF triple: subject → predicate → object.</p>
+        <div id="graphArea" class="graph-area"></div>
+    </section>
+
+    <section class="card">
+        <h2>Triples table</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Predicate</th>
+                <th>Object</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="triple : ${triples}">
+                <td th:text="${triple.subject}">subject</td>
+                <td th:text="${triple.predicate}">predicate</td>
+                <td th:text="${triple.object}">object</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+
+<script id="triples-data" type="application/json" th:utext="${triplesJson}"></script>
+<script th:src="@{/js/graph.js}"></script>
+</body>
+</html>

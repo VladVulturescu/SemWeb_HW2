@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${book.title}">Book details</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <h1 th:text="${book.title}">Book title</h1>
+    <nav>
+        <a th:href="@{/books}">Books</a>
+        <a th:href="@{/books/{id}/edit(id=${book.id})}">Edit this book</a>
+        <a th:href="@{/rdf/graph}">View RDF Graph</a>
+    </nav>
+</header>
+
+<main>
+    <section class="card">
+        <h2>Book information</h2>
+        <p><strong>Author:</strong> <span th:text="${book.author}">Author</span></p>
+        <p><strong>Reading level:</strong> <span th:text="${book.readingLevel}">Level</span></p>
+        <p><strong>Themes:</strong> <span th:text="${#strings.listJoin(book.themes, ', ')}">Themes</span></p>
+        <p><strong>Description:</strong> <span th:text="${book.description}">Description</span></p>
+    </section>
+
+    <section class="card">
+        <h2>Recommended users</h2>
+        <p th:if="${#lists.isEmpty(book.recommendedUsers)}">
+            No matching user yet. A match requires both preferred theme and reading level to match.
+        </p>
+        <ul th:if="${!#lists.isEmpty(book.recommendedUsers)}">
+            <li th:each="user : ${book.recommendedUsers}" th:text="${user}">Alice</li>
+        </ul>
+    </section>
+</main>
+</body>
+</html>
