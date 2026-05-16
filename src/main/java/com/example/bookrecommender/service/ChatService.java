@@ -13,13 +13,16 @@ import java.util.List;
 public class ChatService {
     private final BookVectorStoreService bookVectorStoreService;
     private final RdfBookService rdfBookService;
+    private final LlmService llmService;
 
     public ChatService(
             BookVectorStoreService bookVectorStoreService,
-            RdfBookService rdfBookService
+            RdfBookService rdfBookService,
+            LlmService llmService
     ) {
         this.bookVectorStoreService = bookVectorStoreService;
         this.rdfBookService = rdfBookService;
+        this.llmService = llmService;
     }
 
     public ChatResponse answer(ChatRequest request) {
@@ -35,11 +38,23 @@ public class ChatService {
         String normalizedMessage = normalize(message);
 
         if (asksWhatGraphDescribes(normalizedMessage)) {
-            return describeRdfGraph();
+            List<BookDocument> allDocuments = bookVectorStoreService.allDocuments();
+
+            if (allDocuments.isEmpty()) {
+                return describeRdfGraph();
+            }
+
+            return buildLlmRagResponse(message, allDocuments, describeRdfGraph());
         }
 
         if (asksAboutRecommendedUsers(normalizedMessage)) {
-            return describeRecommendedUsers();
+            List<BookDocument> allDocuments = bookVectorStoreService.allDocuments();
+
+            if (allDocuments.isEmpty()) {
+                return describeRecommendedUsers();
+            }
+
+            return buildLlmRagResponse(message, allDocuments, describeRecommendedUsers());
         }
 
         List<BookDocument> authorAndThemeMatches = findBooksByAuthorAndTheme(message);
@@ -57,7 +72,7 @@ public class ChatService {
             );
         }
 
-        return buildSimpleRagResponse(message, retrievedDocuments);
+        return buildLlmRagResponse(message, retrievedDocuments);
     }
 
     public ConversationStarterResponse starters(String pageType, String bookId) {
@@ -142,6 +157,46 @@ public class ChatService {
                 "The matching books are: " + String.join(", ", titles) + ".",
                 titles
         );
+    }
+
+    private ChatResponse buildLlmRagResponse(String message, List<BookDocument> retrievedDocuments) {
+        List<String> retrievedBooks = titles(retrievedDocuments);
+
+        if (!llmService.isEnabled()) {
+            return buildSimpleRagResponse(message, retrievedDocuments);
+        }
+
+        try {
+            String llmAnswer = llmService.answerWithContext(message, retrievedDocuments);
+            return new ChatResponse(llmAnswer, retrievedBooks);
+        } catch (Exception e) {
+            System.err.println("[LLM] Falling back to deterministic RDF response.");
+            e.printStackTrace();
+
+            return buildSimpleRagResponse(message, retrievedDocuments);
+        }
+    }
+
+    private ChatResponse buildLlmRagResponse(
+            String message,
+            List<BookDocument> retrievedDocuments,
+            ChatResponse fallbackResponse
+    ) {
+        List<String> retrievedBooks = titles(retrievedDocuments);
+
+        if (!llmService.isEnabled()) {
+            return fallbackResponse;
+        }
+
+        try {
+            String llmAnswer = llmService.answerWithContext(message, retrievedDocuments);
+            return new ChatResponse(llmAnswer, retrievedBooks);
+        } catch (Exception e) {
+            System.err.println("[LLM] Falling back to deterministic RDF response.");
+            e.printStackTrace();
+
+            return fallbackResponse;
+        }
     }
 
     private ChatResponse buildSimpleRagResponse(String message, List<BookDocument> documents) {
