@@ -45,5 +45,13 @@
 
 <script id="triples-data" type="application/json" th:utext="${triplesJson}"></script>
 <script th:src="@{/js/graph.js}"></script>
+
+<div id="chat-context"
+     data-page-type="graph"
+     data-book-id="">
+</div>
+
+<script th:src="@{/js/chat-widget.js}"></script>
+
 </body>
 </html>
