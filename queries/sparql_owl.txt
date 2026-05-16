@@ -1,0 +1,64 @@
+# Query 1: List all books and their authors
+PREFIX ex: <http://example.org/book-recommender#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?bookTitle ?authorName WHERE {
+  ?book rdf:type ex:Book .
+  ?book ex:title ?bookTitle .
+  ?book ex:hasAuthor ?author .
+  ?author ex:authorName ?authorName .
+}
+
+
+
+# Query 2: List all books and their themes
+PREFIX ex: <http://example.org/book-recommender#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?bookTitle ?themeName WHERE {
+  ?book rdf:type ex:Book .
+  ?book ex:title ?bookTitle .
+  ?book ex:hasTheme ?theme .
+  ?theme ex:themeName ?themeName .
+}
+
+
+
+# Query 3: Find all Beginner books
+PREFIX ex: <http://example.org/book-recommender#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?bookTitle WHERE {
+  ?book rdf:type ex:Book .
+  ?book ex:title ?bookTitle .
+  ?book ex:suitableForLevel ex:Beginner .
+}
+
+
+
+# Query 4: Find Science Fiction books
+PREFIX ex: <http://example.org/book-recommender#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?bookTitle WHERE {
+  ?book rdf:type ex:Book .
+  ?book ex:title ?bookTitle .
+  ?book ex:hasTheme ex:ScienceFiction .
+}
+
+
+
+# Query 5: Find recommended books for Alice
+# A book is recommended if it matches Alice's preferred theme and reading level.
+PREFIX ex: <http://example.org/book-recommender#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?bookTitle WHERE {
+  ex:Alice ex:prefersTheme ?preferredTheme .
+  ex:Alice ex:hasReadingLevel ?aliceLevel .
+
+  ?book rdf:type ex:Book .
+  ?book ex:title ?bookTitle .
+  ?book ex:hasTheme ?preferredTheme .
+  ?book ex:suitableForLevel ?aliceLevel .
+}

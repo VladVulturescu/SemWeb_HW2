@@ -1,0 +1,94 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:ex="http://example.org/book-recommender#">
+  <ex:User rdf:about="http://example.org/book-recommender/user/alice">
+    <ex:prefersTheme>
+      <ex:Theme rdf:about="http://example.org/book-recommender/theme/science-fiction">
+        <ex:themeName>Science Fiction</ex:themeName>
+      </ex:Theme>
+    </ex:prefersTheme>
+    <ex:hasReadingLevel>
+      <ex:ReadingLevel rdf:about="http://example.org/book-recommender/level/intermediate">
+        <ex:levelName>Intermediate</ex:levelName>
+      </ex:ReadingLevel>
+    </ex:hasReadingLevel>
+    <ex:userName>Alice</ex:userName>
+  </ex:User>
+  <ex:User rdf:about="http://example.org/book-recommender/user/bob">
+    <ex:prefersTheme>
+      <ex:Theme rdf:about="http://example.org/book-recommender/theme/mystery">
+        <ex:themeName>Mystery</ex:themeName>
+      </ex:Theme>
+    </ex:prefersTheme>
+    <ex:hasReadingLevel>
+      <ex:ReadingLevel rdf:about="http://example.org/book-recommender/level/beginner">
+        <ex:levelName>Beginner</ex:levelName>
+      </ex:ReadingLevel>
+    </ex:hasReadingLevel>
+    <ex:userName>Bob</ex:userName>
+  </ex:User>
+  <ex:Book rdf:about="http://example.org/book-recommender/book/the-silent-patient">
+    <ex:suitableForLevel rdf:resource="http://example.org/book-recommender/level/intermediate"/>
+    <ex:hasTheme>
+      <ex:Theme rdf:about="http://example.org/book-recommender/theme/murder">
+        <ex:themeName>Murder</ex:themeName>
+      </ex:Theme>
+    </ex:hasTheme>
+    <ex:hasTheme rdf:resource="http://example.org/book-recommender/theme/mystery"/>
+    <ex:hasAuthor>
+      <ex:Author rdf:about="http://example.org/book-recommender/author/alex-michaelides">
+        <ex:authorName>Alex Michaelides</ex:authorName>
+      </ex:Author>
+    </ex:hasAuthor>
+    <ex:description>Mystery and Murder novel suitable for Intermediate readers.</ex:description>
+    <ex:title>The Silent Patient</ex:title>
+  </ex:Book>
+  <ex:Book rdf:about="http://example.org/book-recommender/book/dune">
+    <ex:suitableForLevel>
+      <ex:ReadingLevel rdf:about="http://example.org/book-recommender/level/advanced">
+        <ex:levelName>Advanced</ex:levelName>
+      </ex:ReadingLevel>
+    </ex:suitableForLevel>
+    <ex:hasTheme>
+      <ex:Theme rdf:about="http://example.org/book-recommender/theme/fantasy">
+        <ex:themeName>Fantasy</ex:themeName>
+      </ex:Theme>
+    </ex:hasTheme>
+    <ex:hasTheme rdf:resource="http://example.org/book-recommender/theme/science-fiction"/>
+    <ex:hasAuthor>
+      <ex:Author rdf:about="http://example.org/book-recommender/author/frank-herbert">
+        <ex:authorName>Frank Herbert</ex:authorName>
+      </ex:Author>
+    </ex:hasAuthor>
+    <ex:description>Science Fiction and Fantasy novel suitable for Advanced readers.</ex:description>
+    <ex:title>Dune</ex:title>
+  </ex:Book>
+  <ex:Book rdf:about="http://example.org/book-recommender/book/harry-potter">
+    <ex:hasTheme>
+      <ex:Theme rdf:about="http://example.org/book-recommender/theme/magic">
+        <ex:themeName>Magic</ex:themeName>
+      </ex:Theme>
+    </ex:hasTheme>
+    <ex:hasTheme rdf:resource="http://example.org/book-recommender/theme/fantasy"/>
+    <ex:suitableForLevel rdf:resource="http://example.org/book-recommender/level/beginner"/>
+    <ex:hasAuthor>
+      <ex:Author rdf:about="http://example.org/book-recommender/author/j-k-rowling">
+        <ex:authorName>J. K. Rowling</ex:authorName>
+      </ex:Author>
+    </ex:hasAuthor>
+    <ex:description>A fantasy novel used here as the homework test example for adding a book.</ex:description>
+    <ex:title>Harry Potter</ex:title>
+  </ex:Book>
+  <ex:Book rdf:about="http://example.org/book-recommender/book/hunger-games">
+    <ex:suitableForLevel rdf:resource="http://example.org/book-recommender/level/beginner"/>
+    <ex:hasTheme rdf:resource="http://example.org/book-recommender/theme/fantasy"/>
+    <ex:hasTheme rdf:resource="http://example.org/book-recommender/theme/science-fiction"/>
+    <ex:hasAuthor>
+      <ex:Author rdf:about="http://example.org/book-recommender/author/suzanne-collins">
+        <ex:authorName>Suzanne Collins</ex:authorName>
+      </ex:Author>
+    </ex:hasAuthor>
+    <ex:description>Science Fiction and Fantasy novel for Beginner readers only.</ex:description>
+    <ex:title>Hunger Games</ex:title>
+  </ex:Book>
+</rdf:RDF>
