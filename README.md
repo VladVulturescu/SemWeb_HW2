@@ -4,9 +4,9 @@ Semantic Web Applications Homework 2 project.
 
 ## Team members
 
-- Andrei Dragota
-- Alberto-George Udrea
-- Vlad Alexandru Vulturescu
+- Andrei Dragota - The LLM 
+- Alberto-George Udrea - Backend and web pages
+- Vlad Alexandru Vulturescu - RDF, ontology, SPARQL
 
 ## Public GitHub repository
 
